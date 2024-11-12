@@ -197,7 +197,7 @@ def generate_launch_description():
 
         # get topics for remap
         detect_3d_detections_topic = "detections"
-        debug_detections_topic = "detections"
+        debug_detections_topic = "yolodetections"
 
         if use_tracking:
             detect_3d_detections_topic = "tracking"
@@ -230,7 +230,7 @@ def generate_launch_description():
                     "image_reliability": image_reliability,
                 }
             ],
-            remappings=[("image_raw", input_image_topic)],
+            remappings=[("image_raw", input_image_topic),("detections", "yolodetections")],
         )
 
         tracking_node_cmd = Node(
