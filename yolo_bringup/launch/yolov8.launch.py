@@ -35,13 +35,14 @@ def generate_launch_description():
                     )
                 ),
                 launch_arguments={
-                    "model": LaunchConfiguration("model", default="yolov8m.pt"),
+                    "model": LaunchConfiguration("model", default="yolov8m-seg.pt"),
                     "tracker": LaunchConfiguration("tracker", default="bytetrack.yaml"),
                     "device": LaunchConfiguration("device", default="cuda:0"),
                     "enable": LaunchConfiguration("enable", default="True"),
                     "threshold": LaunchConfiguration("threshold", default="0.5"),
+                    "use_tracking": LaunchConfiguration("use_tracking", default="False"),
                     "input_image_topic": LaunchConfiguration(
-                        "input_image_topic", default="/camera/rgb/image_raw"
+                        "input_image_topic", default="/my_camera/pylon_ros2_camera_node/image_rect"
                     ),
                     "image_reliability": LaunchConfiguration(
                         "image_reliability", default="2"
