@@ -35,7 +35,7 @@ def generate_launch_description():
                     )
                 ),
                 launch_arguments={
-                    "model": LaunchConfiguration("model", default="yolov8m-seg.pt"),
+                    "model": LaunchConfiguration("model", default="yolov8s-seg.pt"),
                     "tracker": LaunchConfiguration("tracker", default="bytetrack.yaml"),
                     "device": LaunchConfiguration("device", default="cuda:0"),
                     "enable": LaunchConfiguration("enable", default="True"),
@@ -48,6 +48,8 @@ def generate_launch_description():
                         "image_reliability", default="2"
                     ),
                     "namespace": LaunchConfiguration("namespace", default="yolo"),
+                    "half" : LaunchConfiguration("half", default = "True"),
+                    "retina_masks" : LaunchConfiguration("retina_masks", default = "False"),
                 }.items(),
             )
         ]
