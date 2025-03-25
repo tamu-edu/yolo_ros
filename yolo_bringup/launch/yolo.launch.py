@@ -40,6 +40,11 @@ def generate_launch_description():
         model_cmd = DeclareLaunchArgument(
             "model", default_value="yolov8m.pt", description="Model name or path"
         )
+        
+        classes = LaunchConfiguration("classes")
+        classes_cmd = DeclareLaunchArgument(
+            "classes", default_value='""', description="String list of classes to consider"
+        )
 
         tracker = LaunchConfiguration("tracker")
         tracker_cmd = DeclareLaunchArgument(
@@ -228,6 +233,7 @@ def generate_launch_description():
                     "agnostic_nms": agnostic_nms,
                     "retina_masks": retina_masks,
                     "image_reliability": image_reliability,
+                    "classes": classes
                 }
             ],
             remappings=[("image_raw", input_image_topic),("detections", "yolodetections")],
@@ -281,6 +287,7 @@ def generate_launch_description():
         return (
             model_type_cmd,
             model_cmd,
+            classes_cmd,
             tracker_cmd,
             device_cmd,
             enable_cmd,
@@ -307,7 +314,7 @@ def generate_launch_description():
             yolo_node_cmd,
             tracking_node_cmd,
             detect_3d_node_cmd,
-            debug_node_cmd,
+            debug_node_cmd
         )
 
     use_tracking = LaunchConfiguration("use_tracking")

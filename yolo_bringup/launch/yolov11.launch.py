@@ -35,18 +35,20 @@ def generate_launch_description():
                     )
                 ),
                 launch_arguments={
-                    "model": LaunchConfiguration("model", default="yolo11m.pt"),
-                    "tracker": LaunchConfiguration("tracker", default="bytetrack.yaml"),
+                    "model": LaunchConfiguration("model", default="yolo11s-seg.pt"),
                     "device": LaunchConfiguration("device", default="cuda:0"),
                     "enable": LaunchConfiguration("enable", default="True"),
-                    "threshold": LaunchConfiguration("threshold", default="0.5"),
+                    "threshold": LaunchConfiguration("threshold", default="0.5"),                    
+                    "use_tracking": LaunchConfiguration("use_tracking", default="False"),
                     "input_image_topic": LaunchConfiguration(
-                        "input_image_topic", default="/camera/rgb/image_raw"
+                        "input_image_topic", default="/my_camera/pylon_ros2_camera_node/image_rect"
                     ),
                     "image_reliability": LaunchConfiguration(
                         "image_reliability", default="2"
                     ),
                     "namespace": LaunchConfiguration("namespace", default="yolo"),
+                    "half" : LaunchConfiguration("half", default = "True"),
+                    "retina_masks" : LaunchConfiguration("retina_masks", default = "False"),
                 }.items(),
             )
         ]

@@ -65,6 +65,7 @@ class YoloNode(LifecycleNode):
         self.declare_parameter("augment", False)
         self.declare_parameter("agnostic_nms", False)
         self.declare_parameter("retina_masks", False)
+        self.declare_parameter("classes", '""')
 
         self.declare_parameter("enable", True)
         self.declare_parameter("image_reliability", QoSReliabilityPolicy.BEST_EFFORT)
@@ -101,6 +102,17 @@ class YoloNode(LifecycleNode):
         self.retina_masks = (
             self.get_parameter("retina_masks").get_parameter_value().bool_value
         )
+
+        # Get the parameter value
+        classes_str = self.get_parameter("classes").get_parameter_value().string_value.strip()
+
+        # Handle None case
+        if not classes_str:
+            self.classes = None
+        else:
+            self.classes = [int(x) for x in classes_str.split(',')]
+
+        self.get_logger().info(f'Parsed classes: {self.classes}')
 
         # ros params
         self.enable = self.get_parameter("enable").get_parameter_value().bool_value
@@ -329,6 +341,7 @@ class YoloNode(LifecycleNode):
                 agnostic_nms=self.agnostic_nms,
                 retina_masks=self.retina_masks,
                 device=self.device,
+                classes=self.classes
             )
             results: Results = results[0].cpu()
 
