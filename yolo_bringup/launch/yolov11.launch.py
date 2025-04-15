@@ -48,7 +48,6 @@ def generate_launch_description():
                     ),
                     "namespace": LaunchConfiguration("namespace", default="yolo"),
                     "half" : LaunchConfiguration("half", default = "True"),
-                    "retina_masks" : LaunchConfiguration("retina_masks", default = "False"),
                 }.items(),
             )
         ]
