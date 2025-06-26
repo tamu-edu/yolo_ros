@@ -88,7 +88,7 @@ class DebugNode(LifecycleNode):
         )
 
         self._synchronizer = message_filters.ApproximateTimeSynchronizer(
-            (self.image_sub, self.detections_sub), 10, 0.5
+            (self.image_sub, self.detections_sub), 10, 0.1
         )
         self._synchronizer.registerCallback(self.detections_cb)
 
