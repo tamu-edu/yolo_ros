@@ -68,6 +68,7 @@ class YoloNode(LifecycleNode):
         self.declare_parameter("classes", '""')
 
         self.declare_parameter("enable", True)
+        self.declare_parameter("input_image_topic", "/camera/rgb/image_raw")
         self.declare_parameter("image_reliability", QoSReliabilityPolicy.BEST_EFFORT)
 
         self.type_to_model = {"YOLO": YOLO, "NAS": NAS, "World": YOLOWorld}
@@ -116,6 +117,9 @@ class YoloNode(LifecycleNode):
 
         # ros params
         self.enable = self.get_parameter("enable").get_parameter_value().bool_value
+        self.input_image_topic = (
+            self.get_parameter("input_image_topic").get_parameter_value().string_value
+        )
         self.reliability = (
             self.get_parameter("image_reliability").get_parameter_value().integer_value
         )
@@ -150,7 +154,7 @@ class YoloNode(LifecycleNode):
             )
 
         self._sub = self.create_subscription(
-            Image, "image_raw", self.image_cb, self.image_qos_profile
+            Image, self.input_image_topic, self.image_cb, self.image_qos_profile
         )
 
         super().on_activate(state)

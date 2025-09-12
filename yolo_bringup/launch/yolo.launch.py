@@ -40,11 +40,6 @@ def generate_launch_description():
         model_cmd = DeclareLaunchArgument(
             "model", default_value="yolov8m.pt", description="Model name or path"
         )
-        
-        classes = LaunchConfiguration("classes")
-        classes_cmd = DeclareLaunchArgument(
-            "classes", default_value='""', description="String list of classes to consider"
-        )
 
         tracker = LaunchConfiguration("tracker")
         tracker_cmd = DeclareLaunchArgument(
@@ -63,13 +58,6 @@ def generate_launch_description():
             "enable", default_value="True", description="Whether to start YOLO enabled"
         )
 
-        threshold = LaunchConfiguration("threshold")
-        threshold_cmd = DeclareLaunchArgument(
-            "threshold",
-            default_value="0.5",
-            description="Minimum probability of a detection to be published",
-        )
-
         iou = LaunchConfiguration("iou")
         iou_cmd = DeclareLaunchArgument(
             "iou", default_value="0.7", description="IoU threshold"
@@ -85,13 +73,6 @@ def generate_launch_description():
         imgsz_width = LaunchConfiguration("imgsz_width")
         imgsz_width_cmd = DeclareLaunchArgument(
             "imgsz_width", default_value="640", description="Image width for inference"
-        )
-
-        half = LaunchConfiguration("half")
-        half_cmd = DeclareLaunchArgument(
-            "half",
-            default_value="False",
-            description="Whether to enable half-precision (FP16) inference speeding up model inference with minimal impact on accuracy",
         )
 
         max_det = LaunchConfiguration("max_det")
@@ -200,6 +181,13 @@ def generate_launch_description():
             description="Whether to activate the debug node",
         )
 
+        param_file = LaunchConfiguration("param_file")
+        param_file_cmd = DeclareLaunchArgument(
+            "param_file",
+            default_value="",
+            description="Path to the YAML file with node parameters.",
+        )
+
         # get topics for remap
         detect_3d_detections_topic = "detections"
         debug_detections_topic = "yolodetections"
@@ -218,25 +206,23 @@ def generate_launch_description():
             name="yolo_node",
             namespace=namespace,
             parameters=[
+                param_file,
                 {
                     "model_type": model_type,
                     "model": model,
                     "device": device,
                     "enable": enable,
-                    "threshold": threshold,
                     "iou": iou,
                     "imgsz_height": imgsz_height,
                     "imgsz_width": imgsz_width,
-                    "half": half,
                     "max_det": max_det,
                     "augment": augment,
                     "agnostic_nms": agnostic_nms,
                     "retina_masks": retina_masks,
                     "image_reliability": image_reliability,
-                    "classes": classes
                 }
             ],
-            remappings=[("image_raw", input_image_topic),("detections", "yolodetections")],
+            remappings=[("detections", "yolodetections")],
         )
 
         tracking_node_cmd = Node(
@@ -287,15 +273,12 @@ def generate_launch_description():
         return (
             model_type_cmd,
             model_cmd,
-            classes_cmd,
             tracker_cmd,
             device_cmd,
             enable_cmd,
-            threshold_cmd,
             iou_cmd,
             imgsz_height_cmd,
             imgsz_width_cmd,
-            half_cmd,
             max_det_cmd,
             augment_cmd,
             agnostic_nms_cmd,
@@ -311,6 +294,7 @@ def generate_launch_description():
             maximum_detection_threshold_cmd,
             namespace_cmd,
             use_debug_cmd,
+            param_file_cmd,
             yolo_node_cmd,
             tracking_node_cmd,
             detect_3d_node_cmd,

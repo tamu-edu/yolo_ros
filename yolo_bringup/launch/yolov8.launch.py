@@ -38,7 +38,6 @@ def generate_launch_description():
                     "model": LaunchConfiguration("model", default="yolov8s-seg.pt"),
                     "device": LaunchConfiguration("device", default="cuda:0"),
                     "enable": LaunchConfiguration("enable", default="True"),
-                    "threshold": LaunchConfiguration("threshold", default="0.5"),                    
                     "use_tracking": LaunchConfiguration("use_tracking", default="False"),
                     "input_image_topic": LaunchConfiguration(
                         "input_image_topic", default="/my_camera/pylon_ros2_camera_node/image_rect"
@@ -47,7 +46,7 @@ def generate_launch_description():
                         "image_reliability", default="2"
                     ),
                     "namespace": LaunchConfiguration("namespace", default="yolo"),
-                    "half" : LaunchConfiguration("half", default = "True"),
+                    "param_file": LaunchConfiguration("param_file", default=""),
                 }.items(),
             )
         ]
