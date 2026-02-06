@@ -60,7 +60,7 @@ def generate_launch_description():
 
         iou = LaunchConfiguration("iou")
         iou_cmd = DeclareLaunchArgument(
-            "iou", default_value="0.7", description="IoU threshold"
+            "iou", default_value="0.001", description="IoU threshold"
         )
 
         imgsz_height = LaunchConfiguration("imgsz_height")
@@ -92,7 +92,7 @@ def generate_launch_description():
         agnostic_nms = LaunchConfiguration("agnostic_nms")
         agnostic_nms_cmd = DeclareLaunchArgument(
             "agnostic_nms",
-            default_value="False",
+            default_value="True",
             description="Whether to enable class-agnostic Non-Maximum Suppression (NMS) merging overlapping boxes of different classes",
         )
 
